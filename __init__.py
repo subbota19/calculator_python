@@ -1,1 +1,1 @@
-__all__ = ["model", "view", "input"]
+__all__ = ["model", "view", "input", "error"]

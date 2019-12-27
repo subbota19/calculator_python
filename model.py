@@ -50,8 +50,8 @@ class Assembly:
         stack_with_pl_record = self._assemble_pol_expression()
         result_stack = []
         for x in stack_with_pl_record:
-            try:
-                result_stack.append(int(x))
-            except ValueError:
+            if Assembly.is_integer(x):
+                result_stack.append(x)
+            else:
                 result_stack.append(Expression.operation(result_stack.pop(-2), result_stack.pop(-1), x))
         return str(result_stack[0])
