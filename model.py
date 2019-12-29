@@ -13,16 +13,32 @@ class Assembly:
     @classmethod
     def is_integer(cls, element):
         try:
-            return bool(int(element))
+            # return int(element)-bad solution,because bool(0) has False
+            int(element)
+            return True
         except ValueError:
             pass
+
+    def _split_in_list(self):
+        var = ''
+        upgrade_record_numbers = []
+        for x in ['('] + self.record_numbers + [')']:
+            if Assembly.is_integer(x):
+                var += x
+            else:
+                if var:
+                    upgrade_record_numbers.append(var)
+                    var = ''
+                upgrade_record_numbers.append(x)
+
+        return upgrade_record_numbers
 
     def _assemble_pol_expression(self):
         stack_with_pl_record = []
         stack_with_operation = []
         using_operation = {'+': 0, '-': 0, '*': 1, '^': 2, '/': 1, '(': -1, ')': -1}
 
-        for x in self.record_numbers:
+        for x in self._split_in_list():
             if Assembly.is_integer(x):
                 stack_with_pl_record.append(int(x))
             else:
@@ -30,7 +46,7 @@ class Assembly:
                     for i in stack_with_operation[::-1]:
                         if i == '(':
                             break
-                    stack_with_pl_record.append(str(stack_with_operation.pop()))
+                        stack_with_pl_record.append(str(stack_with_operation.pop()))
                     stack_with_operation.pop()
                     continue
                 if not stack_with_operation or x == '(':
