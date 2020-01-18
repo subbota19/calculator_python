@@ -1,5 +1,6 @@
 import sys
-from calculator_python import *
+from calculator_python.model import *
+from calculator_python.view import *
 
 
 class Calculator:
